@@ -21,6 +21,10 @@ class TestTextNode(unittest.TestCase):
         node = TextNode("This is a text node", TextType.PLAIN, "http://dummy.com")
         self.assertIsNotNone(node.url)
 
+    def test_doesnt_exist(self):
+        with self.assertRaises(KeyError):
+            _ = TextType["GRAPHIC"]
+
 
 if __name__ == "__main__":
     unittest.main()
