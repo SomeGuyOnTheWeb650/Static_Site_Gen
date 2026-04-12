@@ -1,6 +1,6 @@
 from textnode import TextNode, TextType
 from htmlnode import HTMLNode, ParentNode, LeafNode
-
+import re
 #pretend to pass in a text_node, it has attr of text, texttype and optional url
 def text_node_to_html_node(text_node):
     match text_node.text_type:
@@ -46,3 +46,30 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
                 continue
             new_nodes.append(TextNode(text, text_type, node.url))
     return new_nodes
+
+
+def extract_markdown_images(text):
+    if text is None:
+        return None
+    if not isinstance(text, str):
+        raise TypeError("input is not a valid string")    
+    result = re.findall(r"!\[(.*?)\]\((.*?)\)", text)
+    
+    return result
+
+def extract_markdown_links(text):
+    if text is None:
+        return None
+    if not isinstance(text, str):
+        raise TypeError("input is not a valid string")    
+    complex_result = []
+    result = re.findall(r"\[!\[(.*?)\]\((.*?)\)\]\((.*?)\)", text)
+    
+    if result != []:
+        
+        for item in result:
+            complex_result.append((f"![{item[0]}]({item[1]})", item[2]))
+            
+    result = re.findall(r"(?<!!)\[([^\[\]]*)\]\(([^\[\]\(\)]*)\)", text)
+    result = complex_result + result
+    return result

@@ -1,5 +1,5 @@
 import unittest
-from functions import text_node_to_html_node, split_nodes_delimiter
+from functions import text_node_to_html_node, split_nodes_delimiter,extract_markdown_images, extract_markdown_links
 from textnode import TextNode, TextType
 from htmlnode import HTMLNode, ParentNode, LeafNode
 case = [item for item in TextType]
@@ -94,6 +94,72 @@ class TestTextToHTML(unittest.TestCase):
         self.assertIs(old_nodes[0], result[0])
             
         
+    def test_extract_image(self):
+        text = "hello darkness ![my old friend](http://iwillseeyou.com)"
+        result = extract_markdown_images(text)
+        self.assertEqual([("my old friend", "http://iwillseeyou.com")], result)
         
+    def test_e_i(self):
+        #testing multiple images in one line
+        text = "![my old friend](please come home) and ![I will keep the lights on](hurry up)"
+        result = extract_markdown_images(text)
+        self.assertEqual(result, [("my old friend", "please come home"), ("I will keep the lights on", "hurry up")])
         
+    def test_ei_none(self):
+        text = None
+        result = extract_markdown_images(text)
+        self.assertIs(result, None)
+    
+    def test_ei_no_matches(self):
+        text = "ladydahdeedah"
+        result = extract_markdown_images(text)
+        self.assertEqual(result, [])
+    
+    def test_ei_raise(self):
+        text = 51
+        with self.assertRaises(TypeError):
+            extract_markdown_images(text)
+
+    def test_ei_image_link(self):
+        text = "[hulu](hoops) something like ![wacka](mole)"
+        result = extract_markdown_images(text)
+        self.assertEqual(result, [("wacka", "mole")])
         
+    
+    
+    
+    
+    def test_extract_link(self):
+        text = "hello darkness [my old friend](http://iwillseeyou.com)"
+        result = extract_markdown_links(text)
+        self.assertEqual([("my old friend", "http://iwillseeyou.com")], result)
+        
+    def test_e_l(self):
+        #testing multiple images in one line
+        text = "[my old friend](please come home) and [I will keep the lights on](hurry up)"
+        result = extract_markdown_links(text)
+        self.assertEqual(result, [("my old friend", "please come home"), ("I will keep the lights on", "hurry up")])
+        
+    def test_el_none(self):
+        text = None
+        result = extract_markdown_links(text)
+        self.assertIs(result, None)
+    
+    def test_el_no_matches(self):
+        text = "ladydahdeedah"
+        result = extract_markdown_links(text)
+        self.assertEqual(result, [])
+    def test_el_raise(self):
+        text = 51
+        with self.assertRaises(TypeError):
+            extract_markdown_links(text)
+
+    def test_nest(self):
+        text = "[![something](witty)](entertainment)"
+        result = extract_markdown_links(text)
+        self.assertEqual(result, [("![something](witty)", "entertainment")])
+    
+    def test_near(self):
+        text = "[![something](witty)](entertainment)[blaghity](spot)"
+        result = extract_markdown_links(text)
+        self.assertEqual(result, [("![something](witty)", "entertainment"), ("blaghity", "spot")])
