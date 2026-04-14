@@ -1,6 +1,6 @@
 from textnode import TextNode, TextType
 from functions import extract_markdown_images, extract_markdown_links
-
+import re
 def split_nodes_image_alt(old_nodes):
     # take list of old nodes
     # take the text of each node, split along image format
