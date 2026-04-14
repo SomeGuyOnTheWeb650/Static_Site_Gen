@@ -74,40 +74,53 @@ def extract_markdown_links(text):
     result = complex_result + result
     return result
 
+
 def split_nodes_image(old_nodes):
-    # take list of old nodes
-    # take the text of each node, split along image format
-    # create a list of plain strings first, then determine stuff
-    # create a new list of TextNodes, with TEXT and IMAGE values
-    # how to split along image format?
-    # regex? fstring? multiple splits?
-    if old_nodes is None or len(old_nodes) == 0:
-        return []
     new_nodes = []
-    
+    if old_nodes is None or len(old_nodes) == 0:
+        return new_nodes
     for node in old_nodes:
-        if node.text_type is not TextType.TEXT:
+        if node.text_type != TextType.TEXT:
             new_nodes.append(node)
-            continue
-        not_images = re.split(r"!\[[^\].*?]+\]\([^\).*?]+\)", node.text)
+            continue 
+        original_text = node.text
         images = extract_markdown_images(node.text)
-        
-        for i in range(len(not_images)):
-            if not_images[i] != "":
+        for image in images:
+            sections = original_text.split(f"![{image[0]}]({image[1]})", 1)
+            if sections[0] != "":
+                new_nodes.append(TextNode(sections[0], TextType.TEXT))
+            new_nodes.append(TextNode(image[0], TextType.IMAGE, image[1]))
+            original_text = sections[1]
+        if original_text != "":
+            new_nodes.append(TextNode(original_text, TextType.TEXT))
+    return new_nodes
 
-                new_nodes.append(TextNode(not_images[i], TextType.TEXT))        
-            if i < len(images):
-                new_nodes.append(TextNode(images[i][0], TextType.IMAGE, images[i][1]))
 
-            
-
+def split_nodes_link(old_nodes):
+    new_nodes = []
+    if old_nodes is None or len(old_nodes) == 0:
+        return new_nodes
+    for node in old_nodes:
+        if node.text_type != TextType.TEXT:
+            new_nodes.append(node)
+            continue 
+        original_text = node.text
+        links = extract_markdown_links(node.text)
+        for link in links:
+            sections = original_text.split(f"[{link[0]}]({link[1]})", 1)
+            if sections[0] != "":
+                new_nodes.append(TextNode(sections[0], TextType.TEXT))
+            new_nodes.append(TextNode(link[0], TextType.LINK, link[1]))
+            original_text = sections[1]
+        if original_text != "":
+            new_nodes.append(TextNode(original_text, TextType.TEXT))
     return new_nodes
 
     
 
 
 
-def split_nodes_link(old_nodes):
+def split_nodes_link_alt(old_nodes):
     # don't mess with nested links yet, just get it working
     if old_nodes is None or len(old_nodes) == 0:
         return []
