@@ -1,5 +1,5 @@
 import unittest
-from functions import text_node_to_html_node, split_nodes_delimiter,extract_markdown_images, extract_markdown_links
+from functions import text_node_to_html_node, split_nodes_delimiter,extract_markdown_images, extract_markdown_links, split_nodes_image, split_nodes_link
 from textnode import TextNode, TextType
 from htmlnode import HTMLNode, ParentNode, LeafNode
 case = [item for item in TextType]
@@ -163,3 +163,90 @@ class TestTextToHTML(unittest.TestCase):
         text = "[![something](witty)](entertainment)[blaghity](spot)"
         result = extract_markdown_links(text)
         self.assertEqual(result, [("![something](witty)", "entertainment"), ("blaghity", "spot")])
+
+    def test_split_nodes_image(self):
+        text = TextNode("something ![checkovs](gun) fires away ![away](again) alleyoop", TextType.TEXT)
+        result = split_nodes_image([text])
+        self.assertEqual(result, [TextNode("something ", TextType.TEXT), TextNode("checkovs", TextType.IMAGE, "gun"), TextNode(" fires away ", TextType.TEXT), TextNode("away", TextType.IMAGE, "again"), TextNode(" alleyoop", TextType.TEXT)])
+
+    def test_split_nodes_image_with_a_link(self):
+        node = TextNode("![check](ov) has a gun [in](hand)", TextType.TEXT)
+        result = split_nodes_image([node])
+        self.assertEqual(result, [TextNode("check", TextType.IMAGE, "ov"), TextNode(" has a gun [in](hand)", TextType.TEXT)])
+
+    def test_split_nodes_image_with_url_syntax(self):
+        node = TextNode("![google](/user/documents/bin/temp) is where I keep my underpants", TextType.TEXT)
+        result = split_nodes_image([node])
+        self.assertEqual(result, [TextNode("google", TextType.IMAGE, "/user/documents/bin/temp"), TextNode(" is where I keep my underpants", TextType.TEXT)])
+
+    
+    
+    def test_split_nodes_image_multi_nodes(self):
+        node = [TextNode("google ![moogle](exam)", TextType.TEXT), TextNode("banana ![scram](ble)", TextType.TEXT)]
+        result = split_nodes_image(node)
+        self.assertEqual(result, [TextNode("google ", TextType.TEXT), TextNode("moogle", TextType.IMAGE, "exam"), TextNode("banana ", TextType.TEXT), TextNode("scram", TextType.IMAGE, "ble")])
+    
+    def test_split_image_none(self):
+        node = None
+        result = split_nodes_image(node)
+        self.assertEqual(result, [])
+
+    def test_split_image_noimg(self):
+        node = TextNode("something witty", TextType.TEXT)
+        result = split_nodes_image([node])
+        self.assertEqual([node], result)
+    def test_split_image_end_in_an_image(self):
+        node = TextNode("end in an ![image](friends)", TextType.TEXT)
+        result = split_nodes_image([node])
+        self.assertEqual([TextNode("end in an ", TextType.TEXT), TextNode("image", TextType.IMAGE, "friends")],
+                         result)
+    
+    def test_split_image_non_text(self):
+        node = TextNode("somesome", TextType.BOLD)
+        result = split_nodes_image([node])
+        self.assertEqual([node], result)
+    
+    def test_split_image_empty(self):
+        node = []
+        result = split_nodes_image(node)
+        self.assertEqual(result, [])
+    
+
+    def test_split_links(self):
+        node = TextNode("[moogle](exam)", TextType.TEXT)
+        result = split_nodes_link([node])
+        self.assertEqual([TextNode("moogle", TextType.LINK, "exam")], result)
+
+    def test_split_links_multi(self):
+        node = TextNode("a new [a](b) is upon us [c](d) here ![my](love) hera", TextType.TEXT)
+        result = split_nodes_link([node])
+        self.assertEqual([TextNode("a new ", TextType.TEXT),
+                          TextNode("a", TextType.LINK, "b"),
+                          TextNode(" is upon us ", TextType.TEXT),
+                          TextNode("c", TextType.LINK, "d"),
+                          TextNode(" here ![my](love) hera", TextType.TEXT)
+                          ], result
+                          )
+    
+    def test_split_with_url(self):
+        node = TextNode("a new [dawn](http://google.com) is upon us", TextType.TEXT)
+        result = split_nodes_link([node])
+        self.assertEqual([TextNode("a new ", TextType.TEXT), 
+                        TextNode("dawn", TextType.LINK, "http://google.com"),
+                        TextNode(" is upon us", TextType.TEXT)],
+                          result)
+        
+    def test_split_link_non_text(self):
+        node = TextNode("somesome", TextType.BOLD)
+        result = split_nodes_link([node])
+        self.assertEqual([node], result)
+    
+    def test_split_link_empty(self):
+        node = []
+        result = split_nodes_link(node)
+        self.assertEqual(result, [])
+    
+    def test_split_link_end_link(self):
+        node = TextNode("some [link](here)", TextType.TEXT)
+        result = split_nodes_link([node])
+        self.assertEqual([TextNode("some ", TextType.TEXT), TextNode("link", TextType.LINK, "here")], result)
