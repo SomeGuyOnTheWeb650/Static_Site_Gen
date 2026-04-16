@@ -57,23 +57,6 @@ def extract_markdown_images(text):
     
     return result
 
-def extract_markdown_links(text):
-    if text is None:
-        return None
-    if not isinstance(text, str):
-        raise TypeError("input is not a valid string")    
-    complex_result = []
-    result = re.findall(r"\[!\[(.*?)\]\((.*?)\)\]\((.*?)\)", text)
-    
-    if result != []:
-        
-        for item in result:
-            complex_result.append((f"![{item[0]}]({item[1]})", item[2]))
-            
-    result = re.findall(r"(?<!!)\[([^\[\]]*)\]\(([^\[\]\(\)]*)\)", text)
-    result = complex_result + result
-    return result
-
 
 def split_nodes_image(old_nodes):
     new_nodes = []
@@ -117,24 +100,28 @@ def split_nodes_link(old_nodes):
     return new_nodes
 
     
+def text_to_textnodes(text):
+    nodes = [TextNode(text, TextType.TEXT)]
+    nodes = split_nodes_delimiter(nodes, "**", TextType.BOLD)
+    nodes = split_nodes_delimiter(nodes, "_", TextType.ITALIC)
+    nodes = split_nodes_delimiter(nodes, "`", TextType.CODE)
+    nodes = split_nodes_link(nodes)
+    nodes = split_nodes_image(nodes)
+    return nodes
+    
 
+def extract_markdown_links(text):
+    if text is None:
+        return None
+    if not isinstance(text, str):
+        raise TypeError("input is not a valid string")    
+    all_matches = []
+    for re.match in re.finditer(r"\[!\[(.*?)\]\((.*?)\)\]\((.*?)\)", text):
+        all_matches.append((re.match.start(), f"![{re.match.group(1)}]({re.match.group(2)})", re.match.group(3)))
+    
+    for re.match in re.finditer(r"(?<!!)\[([^\[\]]*)\]\(([^\[\]\(\)]*)\)", text):
+        all_matches.append((re.match.start(), re.match.group(1), re.match.group(2)))
+    all_matches.sort(key=lambda x: x[0])
 
-
-def split_nodes_link_alt(old_nodes):
-    # don't mess with nested links yet, just get it working
-    if old_nodes is None or len(old_nodes) == 0:
-        return []
-    new_nodes = []
-    for node in old_nodes:
-        if node.text_type is not TextType.TEXT:
-            new_nodes.append(node)
-            continue
-        not_links = re.split(r"(?<!!)\[[^\[\]]*\][^\)*?]*\)", node.text)
-        links = extract_markdown_links(node.text)
-        for i in range(len(not_links)):
-            if not_links[i] != "":
-                new_nodes.append(TextNode(not_links[i], TextType.TEXT))
-            if i < len(links):
-                new_nodes.append(TextNode(links[i][0], TextType.LINK, links[i][1]))
-
-    return new_nodes
+    return [(item[1], item[2]) for item in all_matches]
+    

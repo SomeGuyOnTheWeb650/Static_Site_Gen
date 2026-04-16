@@ -1,5 +1,6 @@
 import unittest
-from functions import text_node_to_html_node, split_nodes_delimiter,extract_markdown_images, extract_markdown_links, split_nodes_image, split_nodes_link
+from functions import text_node_to_html_node, split_nodes_delimiter,extract_markdown_images
+from functions import text_to_textnodes, extract_markdown_links, split_nodes_image, split_nodes_link
 from textnode import TextNode, TextType
 from htmlnode import HTMLNode, ParentNode, LeafNode
 case = [item for item in TextType]
@@ -37,18 +38,18 @@ class TestTextToHTML(unittest.TestCase):
 
     def test_split_nodes_delimiter(self):
         old_nodes = [TextNode("this is plain text, no mods needed has a url, shouldn't do anything", TextType.TEXT, "https:dummy.com"),
-                    TextNode("this is a node, with a 'code block' word", TextType.TEXT),
+                    TextNode("this is a node, with a `code block` word", TextType.TEXT),
                     TextNode("this is a node, it has a **bold section of text** blagh", TextType.TEXT),
                     TextNode("this is a node, it has an _italic section of text_ blagh", TextType.TEXT)
                     ]
-        delimiter_text_type = [("", TextType.TEXT), ("'", TextType.CODE), ("**", TextType.BOLD), ("_", TextType.ITALIC)]
+        delimiter_text_type = [("", TextType.TEXT), ("`", TextType.CODE), ("**", TextType.BOLD), ("_", TextType.ITALIC)]
         result = []
         result.extend(split_nodes_delimiter(old_nodes, delimiter_text_type[0][0], delimiter_text_type[0][1]))
         self.assertEqual("this is plain text, no mods needed has a url, shouldn't do anything", result[0].text)
         
     def test_split_nodes_code(self):
-        old_nodes = [TextNode("this is a node, with a 'code block' word", TextType.TEXT)]
-        result = split_nodes_delimiter(old_nodes, "'", TextType.CODE)
+        old_nodes = [TextNode("this is a node, with a `code block` word", TextType.TEXT)]
+        result = split_nodes_delimiter(old_nodes, "`", TextType.CODE)
         self.assertEqual((result[0].text, result[0].text_type), ("this is a node, with a ", TextType.TEXT))
         self.assertEqual((result[1].text, result[1].text_type), ("code block", TextType.CODE))
         self.assertEqual((result[2].text, result[2].text_type), (" word", TextType.TEXT))
@@ -69,8 +70,8 @@ class TestTextToHTML(unittest.TestCase):
         self.assertEqual((result[2].text, result[2].text_type), (" word", TextType.TEXT))
 
     def test_split_nodes_edge_case(self):
-        old_nodes = [TextNode("this is a node, with a 'code block'", TextType.TEXT)]
-        result = split_nodes_delimiter(old_nodes, "'", TextType.CODE)
+        old_nodes = [TextNode("this is a node, with a `code block`", TextType.TEXT)]
+        result = split_nodes_delimiter(old_nodes, "`", TextType.CODE)
         self.assertEqual((result[0].text, result[0].text_type), ("this is a node, with a ", TextType.TEXT))
         self.assertEqual((result[1].text, result[1].text_type), ("code block", TextType.CODE))
         
@@ -250,3 +251,64 @@ class TestTextToHTML(unittest.TestCase):
         node = TextNode("some [link](here)", TextType.TEXT)
         result = split_nodes_link([node])
         self.assertEqual([TextNode("some ", TextType.TEXT), TextNode("link", TextType.LINK, "here")], result)
+
+    def test_text_to_TN(self):
+        text = "some _text_ `here`, **bold**,"
+        a = TextNode
+        b = TextType
+        result = text_to_textnodes(text)
+        self.assertEqual(result, [a("some ", b.TEXT), 
+                                  a("text", b.ITALIC),
+                                  a(" ", b.TEXT),
+                                  a("here", b.CODE),
+                                  a(", ", b.TEXT),
+                                  a("bold", b.BOLD),
+                                  a(",", b.TEXT)])
+    def test_text_to_TN_image_link(self):
+        text = "![image](spot) is [here](now)"
+        a = TextNode
+        b = TextType.IMAGE
+        c = TextType.LINK
+        result = text_to_textnodes(text)
+        self.assertEqual(result, 
+                         [a("image", b, "spot"),
+                          a(" is ", TextType.TEXT),
+                          a("here", c, "now")])
+    
+    def test_text_to_TN_nest(self):
+        text = "[![nest](forever)](mychild)"
+        result = text_to_textnodes(text)
+        self.assertEqual(result, 
+                         [TextNode("![nest](forever)", TextType.LINK, "mychild")])
+        
+    def test_text_to_TN_link_image_nest_proper_format(self):
+        text = "[link](http://google.com)![image](/src/image)[![image](/img/native)](http://dummy.com)"
+        result = text_to_textnodes(text)
+        self.assertEqual(result,
+                         [TextNode("link", TextType.LINK, "http://google.com"),
+                          TextNode("image", TextType.IMAGE, "/src/image"),
+                          TextNode("![image](/img/native)", TextType.LINK, "http://dummy.com")
+                          ])
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    

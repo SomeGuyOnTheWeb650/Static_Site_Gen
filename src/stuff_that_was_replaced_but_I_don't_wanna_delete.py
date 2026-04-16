@@ -48,3 +48,21 @@ def split_nodes_link_alt(old_nodes):
                 new_nodes.append(TextNode(links[i][0], TextType.LINK, links[i][1]))
 
     return new_nodes
+
+def extract_markdown_links_alt(text):
+    if text is None:
+        return None
+    if not isinstance(text, str):
+        raise TypeError("input is not a valid string")    
+    complex_result = []
+    result = re.findall(r"\[!\[(.*?)\]\((.*?)\)\]\((.*?)\)", text)
+    
+    if result != []:
+        
+        for item in result:
+            complex_result.append((f"![{item[0]}]({item[1]})", item[2]))
+            
+    result = re.findall(r"(?<!!)\[([^\[\]]*)\]\(([^\[\]\(\)]*)\)", text)
+    result = complex_result + result
+    return result
+
