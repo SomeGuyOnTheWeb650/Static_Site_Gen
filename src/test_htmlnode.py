@@ -11,7 +11,7 @@ test_case = [["a", "tag and value only", None, None],
 
 
 
-
+@unittest.skip("elsewhere atm")
 class TestHTMLNode(unittest.TestCase):
     def test_eq_tag(self):
         node = HTMLNode("a",

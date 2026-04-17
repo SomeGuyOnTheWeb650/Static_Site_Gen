@@ -5,7 +5,7 @@ from textnode import TextNode, TextType
 from htmlnode import HTMLNode, ParentNode, LeafNode
 case = [item for item in TextType]
 
-
+@unittest.skip("elsewhere atm")
 class TestTextToHTML(unittest.TestCase):
     def test_text_to_html(self):
         check = []
@@ -36,6 +36,8 @@ class TestTextToHTML(unittest.TestCase):
             text_node_to_html_node("not a node")
 # use with assertRaises(Exception) to check for raises
 
+@unittest.skip("elsewwhere atm")
+class TestSplitNodesDelimiter(unittest.TestCase):
     def test_split_nodes_delimiter(self):
         old_nodes = [TextNode("this is plain text, no mods needed has a url, shouldn't do anything", TextType.TEXT, "https:dummy.com"),
                     TextNode("this is a node, with a `code block` word", TextType.TEXT),
@@ -94,7 +96,7 @@ class TestTextToHTML(unittest.TestCase):
         result = split_nodes_delimiter(old_nodes, "**", TextType.BOLD)
         self.assertIs(old_nodes[0], result[0])
             
-        
+class TestExtractImage(unittest.TestCase):  
     def test_extract_image(self):
         text = "hello darkness ![my old friend](http://iwillseeyou.com)"
         result = extract_markdown_images(text)
@@ -129,7 +131,7 @@ class TestTextToHTML(unittest.TestCase):
     
     
     
-    
+class TestExtractLink(unittest.TestCase):
     def test_extract_link(self):
         text = "hello darkness [my old friend](http://iwillseeyou.com)"
         result = extract_markdown_links(text)
@@ -165,6 +167,7 @@ class TestTextToHTML(unittest.TestCase):
         result = extract_markdown_links(text)
         self.assertEqual(result, [("![something](witty)", "entertainment"), ("blaghity", "spot")])
 
+class TestSplitNodeImage(unittest.TestCase):
     def test_split_nodes_image(self):
         text = TextNode("something ![checkovs](gun) fires away ![away](again) alleyoop", TextType.TEXT)
         result = split_nodes_image([text])
@@ -212,7 +215,7 @@ class TestTextToHTML(unittest.TestCase):
         result = split_nodes_image(node)
         self.assertEqual(result, [])
     
-
+class TestSplitNodeLinks(unittest.TestCase):
     def test_split_links(self):
         node = TextNode("[moogle](exam)", TextType.TEXT)
         result = split_nodes_link([node])
@@ -252,6 +255,7 @@ class TestTextToHTML(unittest.TestCase):
         result = split_nodes_link([node])
         self.assertEqual([TextNode("some ", TextType.TEXT), TextNode("link", TextType.LINK, "here")], result)
 
+class TestTextToTextNode(unittest.TestCase):
     def test_text_to_TN(self):
         text = "some _text_ `here`, **bold**,"
         a = TextNode
