@@ -1,6 +1,7 @@
 import unittest
-from functions import text_node_to_html_node, split_nodes_delimiter,extract_markdown_images
-from functions import text_to_textnodes, extract_markdown_links, split_nodes_image, split_nodes_link
+from inline_markdown import text_node_to_html_node, split_nodes_delimiter, extract_markdown_images
+from inline_markdown import text_to_textnodes, extract_markdown_links, split_nodes_image, split_nodes_link
+
 from textnode import TextNode, TextType
 from htmlnode import HTMLNode, ParentNode, LeafNode
 case = [item for item in TextType]
@@ -293,21 +294,6 @@ class TestTextToTextNode(unittest.TestCase):
                           TextNode("image", TextType.IMAGE, "/src/image"),
                           TextNode("![image](/img/native)", TextType.LINK, "http://dummy.com")
                           ])
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     

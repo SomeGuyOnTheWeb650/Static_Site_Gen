@@ -1,5 +1,6 @@
 from textnode import TextNode, TextType
 from htmlnode import HTMLNode, ParentNode, LeafNode
+from enum import Enum
 import re
 #pretend to pass in a text_node, it has attr of text, texttype and optional url
 def text_node_to_html_node(text_node):
@@ -126,11 +127,4 @@ def extract_markdown_links(text):
     return [(item[1], item[2]) for item in all_matches]
     
 
-def markdown_to_blocks(markdown):
-    list_of_blocks = markdown.split("\n\n")
-    # need to adjust for trailing lines, AND early lines
-    for block in list_of_blocks:
-        block
 
-# probably just start this over, did nothing on it XD
-    return []
