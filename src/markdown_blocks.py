@@ -7,11 +7,13 @@ def markdown_to_blocks(markdown):
     list_of_blocks = markdown.split("\n\n")
     # need to adjust for trailing lines, AND early lines
     clean_list = []
+    
     for block in list_of_blocks:
         block = block.strip()
+    
         if block != "":
             clean_list.append(block)
-
+    
     return clean_list
 
 class BlockType(Enum):

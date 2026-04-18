@@ -1,0 +1,24 @@
+class HTMLNode
+a base class for HTMLNodes
+has default None for all values
+by default has a props to html format method
+
+class LeafNode
+a child class of HTMLNodes
+has a to html method, requires value, can format with tags as well
+
+class ParentNode
+a child class of HTMLNode
+has a to html method, requires TAG, can recursively format children as well
+
+class TextType
+enum for various TextTypes
+
+class TextNode
+class that establishes text, texttype and optional url=None
+
+function
+text_node_to_html_node
+takes a single textnode
+match cases it and returns an appropriate LeafNode()
+leaf nodes have not children, keep in mind
