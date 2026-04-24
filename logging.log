@@ -1,0 +1,22 @@
+INFO:root:removed ./public/images dir
+INFO:root:removed ./public/index.css file
+INFO:root:created dir: ./public/images
+INFO:root:copied ./static/images/tolkien.png to ./public/images/tolkien.png
+INFO:root:copied ./static/index.css to ./public/index.css
+INFO:root:created dir: ./public/images
+INFO:root:copied ./static/images/tolkien.png to ./public/images/tolkien.png
+INFO:root:copied ./static/index.css to ./public/index.css
+INFO:root:created ./public/
+INFO:root:created dir: ./public/images
+INFO:root:copied ./static/images/tolkien.png to ./public/images/tolkien.png
+INFO:root:copied ./static/index.css to ./public/index.css
+INFO:root:removed ./public/images dir
+INFO:root:removed ./public/index.css file
+INFO:root:created dir: ./public/images
+INFO:root:copied ./static/images/tolkien.png to ./public/images/tolkien.png
+INFO:root:copied ./static/index.css to ./public/index.css
+INFO:root:removed ./public/images dir
+INFO:root:removed ./public/index.css file
+INFO:root:created dir: ./public/images
+INFO:root:copied ./static/images/tolkien.png to ./public/images/tolkien.png
+INFO:root:copied ./static/index.css to ./public/index.css
