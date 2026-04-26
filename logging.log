@@ -20,3 +20,37 @@ INFO:root:removed ./public/index.css file
 INFO:root:created dir: ./public/images
 INFO:root:copied ./static/images/tolkien.png to ./public/images/tolkien.png
 INFO:root:copied ./static/index.css to ./public/index.css
+INFO:root:removed ./public/images dir
+INFO:root:removed ./public/index.css file
+INFO:root:created dir: ./public/images
+INFO:root:copied ./static/images/tolkien.png to ./public/images/tolkien.png
+INFO:root:copied ./static/index.css to ./public/index.css
+INFO:root:removed ./public/images dir
+INFO:root:removed ./public/index.html dir
+INFO:root:removed ./public/index.css file
+INFO:root:created dir: ./public/images
+INFO:root:copied ./static/images/tolkien.png to ./public/images/tolkien.png
+INFO:root:copied ./static/index.css to ./public/index.css
+INFO:root:removed ./public/images dir
+INFO:root:removed ./public/index.css file
+INFO:root:created dir: ./public/images
+INFO:root:copied ./static/images/tolkien.png to ./public/images/tolkien.png
+INFO:root:copied ./static/index.css to ./public/index.css
+INFO:root:removed ./public/images dir
+INFO:root:removed ./public/index.html file
+INFO:root:removed ./public/index.css file
+INFO:root:created dir: ./public/images
+INFO:root:copied ./static/images/tolkien.png to ./public/images/tolkien.png
+INFO:root:copied ./static/index.css to ./public/index.css
+INFO:root:removed ./public/images dir
+INFO:root:removed ./public/index.html file
+INFO:root:removed ./public/index.css file
+INFO:root:created dir: ./public/images
+INFO:root:copied ./static/images/tolkien.png to ./public/images/tolkien.png
+INFO:root:copied ./static/index.css to ./public/index.css
+INFO:root:removed ./public/images dir
+INFO:root:removed ./public/index.html file
+INFO:root:removed ./public/index.css file
+INFO:root:created dir: ./public/images
+INFO:root:copied ./static/images/tolkien.png to ./public/images/tolkien.png
+INFO:root:copied ./static/index.css to ./public/index.css

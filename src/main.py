@@ -3,6 +3,7 @@
 import os
 import shutil
 import logging
+from extraction_function import extract_title, generate_page
 logger = logging.getLogger(__name__)
 logging.basicConfig(filename="logging.log", encoding="utf-8", level=logging.DEBUG)
 
@@ -39,5 +40,7 @@ def main():
                 logging.info(f"created dir: {dst}")
                 helper(path, dst)
     helper()
+
+    generate_page("./content/index.md", "./template.html", "./public/index.html")
 
 main()
