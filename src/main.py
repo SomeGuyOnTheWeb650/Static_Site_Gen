@@ -41,25 +41,24 @@ def main():
                 helper(path, dst)
     helper()
 
-    def generator_helper(source, dst):
-        items = os.listdir(source)
+    def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+        items = os.listdir(dir_path_content)
         
         for item in items:
             
-            path = os.path.join(source, item)
+            path = os.path.join(dir_path_content, item)
             if os.path.isfile(path) and item == "index.md":
                 clean = os.path.relpath(path, "./content")
-                print(path)
-                print(clean)
-                dst_path = os.path.join(dst, clean)
+                
+                dst_path = os.path.join(dest_dir_path, clean)
                 dst_path = dst_path.replace(".md", ".html")
                 
-                generate_page(path, "./template.html", dst_path)
+                generate_page(path, template_path, dst_path)
             elif os.path.isdir(path):
-                generator_helper(path, dst)
+                generate_pages_recursive(path, template_path, dest_dir_path)
                 
         
 
-    generator_helper("./content", "./public")
+    generate_pages_recursive("./content", "./template.html", "./public")
 
 main()
