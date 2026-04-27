@@ -6,7 +6,7 @@ from textnode import TextNode, TextType
 from htmlnode import HTMLNode, ParentNode, LeafNode
 case = [item for item in TextType]
 
-@unittest.skip("elsewhere atm")
+
 class TestTextToHTML(unittest.TestCase):
     def test_text_to_html(self):
         check = []
@@ -37,7 +37,7 @@ class TestTextToHTML(unittest.TestCase):
             text_node_to_html_node("not a node")
 # use with assertRaises(Exception) to check for raises
 
-@unittest.skip("elsewwhere atm")
+
 class TestSplitNodesDelimiter(unittest.TestCase):
     def test_split_nodes_delimiter(self):
         old_nodes = [TextNode("this is plain text, no mods needed has a url, shouldn't do anything", TextType.TEXT, "https:dummy.com"),

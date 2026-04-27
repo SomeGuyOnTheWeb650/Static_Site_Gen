@@ -41,6 +41,25 @@ def main():
                 helper(path, dst)
     helper()
 
-    generate_page("./content/index.md", "./template.html", "./public/index.html")
+    def generator_helper(source, dst):
+        items = os.listdir(source)
+        
+        for item in items:
+            
+            path = os.path.join(source, item)
+            if os.path.isfile(path) and item == "index.md":
+                clean = os.path.relpath(path, "./content")
+                print(path)
+                print(clean)
+                dst_path = os.path.join(dst, clean)
+                dst_path = dst_path.replace(".md", ".html")
+                
+                generate_page(path, "./template.html", dst_path)
+            elif os.path.isdir(path):
+                generator_helper(path, dst)
+                
+        
+
+    generator_helper("./content", "./public")
 
 main()

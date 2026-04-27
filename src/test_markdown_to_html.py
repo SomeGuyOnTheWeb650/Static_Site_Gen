@@ -35,8 +35,8 @@ Code Here
 """
         node = markdown_to_html_node(md)
         html = node.to_html()
-        expected = """<div><p>This <img src=/src/root alt=alt text></img>
-In a paragraph <a href=http://google.com>with</a></p><pre><code>
+        expected = """<div><p>This <img src="/src/root" alt="alt text"></img>
+In a paragraph <a href="http://google.com">with</a></p><pre><code>
 Code Here
 </code></pre><ol><li>List 1</li><li>List 2</li></ol></div>"""
         self.assertEqual(html, expected)

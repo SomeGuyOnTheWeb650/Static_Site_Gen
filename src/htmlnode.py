@@ -33,7 +33,7 @@ class HTMLNode():
         if self.props is None:
             return result
         for prop in self.props:
-            result += f" {prop}={self.props[prop]}"
+            result += f' {prop}="{self.props[prop]}"'
         return result
 
 class LeafNode(HTMLNode):

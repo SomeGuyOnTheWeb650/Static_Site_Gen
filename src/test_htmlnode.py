@@ -11,7 +11,7 @@ test_case = [["a", "tag and value only", None, None],
 
 
 
-@unittest.skip("elsewhere atm")
+
 class TestHTMLNode(unittest.TestCase):
     def test_eq_tag(self):
         node = HTMLNode("a",
@@ -30,7 +30,7 @@ class TestHTMLNode(unittest.TestCase):
                         {"key": "dummy",
                          "key2": "dummy2"}
                          )
-        check = f" key=dummy key2=dummy2"
+        check = f' key="dummy" key2="dummy2"'
         self.assertEqual(node.props_to_html(), check)
 
     def test_value(self):
@@ -54,7 +54,7 @@ class TestHTMLNode(unittest.TestCase):
                             "target": "boogity"
                             }
                         )
-        self.assertEqual(node.to_html(), f"<a href=http://dummy.com target=boogity>This is a link</a>")
+        self.assertEqual(node.to_html(), f'<a href="http://dummy.com" target="boogity">This is a link</a>')
         
     def test_to_html_with_children(self):
         child_node = LeafNode("span", "child")
@@ -83,4 +83,4 @@ class TestHTMLNode(unittest.TestCase):
         child = LeafNode("a", "child", {"key": "value", "test": "run"})
         parent = ParentNode("tag", [child], {"inner": "peace", "rock": "roll"})
         self.assertEqual(parent.to_html(), 
-                         f"<tag inner=peace rock=roll><a key=value test=run>child</a></tag>")
+                         f'<tag inner="peace" rock="roll"><a key="value" test="run">child</a></tag>')
