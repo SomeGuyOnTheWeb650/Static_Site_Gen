@@ -1,0 +1,11 @@
+INFO:root:removed ./docs/blog dir
+INFO:root:removed ./docs/images dir
+INFO:root:removed ./docs/contact dir
+INFO:root:removed ./docs/index.html file
+INFO:root:removed ./docs/index.css file
+INFO:root:created dir: ./docs/images
+INFO:root:copied ./static/images/tolkien.png to ./docs/images/tolkien.png
+INFO:root:copied ./static/images/rivendell.png to ./docs/images/rivendell.png
+INFO:root:copied ./static/images/glorfindel.png to ./docs/images/glorfindel.png
+INFO:root:copied ./static/images/tom.png to ./docs/images/tom.png
+INFO:root:copied ./static/index.css to ./docs/index.css
