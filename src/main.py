@@ -11,7 +11,7 @@ logging.basicConfig(filename="logging.log", encoding="utf-8", level=logging.DEBU
 if len(sys.argv) == 1:
     basepath = "/"
 else:
-    print(sys.argv)
+    
     basepath = sys.argv[1]
 
 def main():

@@ -338,3 +338,25 @@ INFO:root:copied ./static/images/rivendell.png to ./public/images/rivendell.png
 INFO:root:copied ./static/images/glorfindel.png to ./public/images/glorfindel.png
 INFO:root:copied ./static/images/tom.png to ./public/images/tom.png
 INFO:root:copied ./static/index.css to ./public/index.css
+INFO:root:removed ./public/blog dir
+INFO:root:removed ./public/images dir
+INFO:root:removed ./public/contact dir
+INFO:root:removed ./public/index.html file
+INFO:root:removed ./public/index.css file
+INFO:root:created dir: ./public/images
+INFO:root:copied ./static/images/tolkien.png to ./public/images/tolkien.png
+INFO:root:copied ./static/images/rivendell.png to ./public/images/rivendell.png
+INFO:root:copied ./static/images/glorfindel.png to ./public/images/glorfindel.png
+INFO:root:copied ./static/images/tom.png to ./public/images/tom.png
+INFO:root:copied ./static/index.css to ./public/index.css
+INFO:root:removed ./public/blog dir
+INFO:root:removed ./public/images dir
+INFO:root:removed ./public/contact dir
+INFO:root:removed ./public/index.html file
+INFO:root:removed ./public/index.css file
+INFO:root:created dir: ./public/images
+INFO:root:copied ./static/images/tolkien.png to ./public/images/tolkien.png
+INFO:root:copied ./static/images/rivendell.png to ./public/images/rivendell.png
+INFO:root:copied ./static/images/glorfindel.png to ./public/images/glorfindel.png
+INFO:root:copied ./static/images/tom.png to ./public/images/tom.png
+INFO:root:copied ./static/index.css to ./public/index.css
