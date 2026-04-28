@@ -15,7 +15,7 @@ else:
     basepath = sys.argv[1]
 
 def main():
-    destination_directory = "./public/"
+    destination_directory = "./docs/"
     source_directory = "./static/"
     if not os.path.exists(source_directory):
         logging.error("source doesn't exist")
@@ -66,6 +66,6 @@ def main():
                 
         
 
-    generate_pages_recursive("./content", "./template.html", "./public", basepath)
+    generate_pages_recursive("./content", "./template.html", "./docs", basepath)
 
 main()
