@@ -4,8 +4,15 @@ import os
 import shutil
 import logging
 from extraction_function import extract_title, generate_page
+import sys
+
 logger = logging.getLogger(__name__)
 logging.basicConfig(filename="logging.log", encoding="utf-8", level=logging.DEBUG)
+if len(sys.argv) == 1:
+    basepath = "/"
+else:
+    print(sys.argv)
+    basepath = sys.argv[1]
 
 def main():
     destination_directory = "./public/"
@@ -41,7 +48,7 @@ def main():
                 helper(path, dst)
     helper()
 
-    def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+    def generate_pages_recursive(dir_path_content, template_path, dest_dir_path, basepath):
         items = os.listdir(dir_path_content)
         
         for item in items:
@@ -53,12 +60,12 @@ def main():
                 dst_path = os.path.join(dest_dir_path, clean)
                 dst_path = dst_path.replace(".md", ".html")
                 
-                generate_page(path, template_path, dst_path)
+                generate_page(path, template_path, dst_path, basepath)
             elif os.path.isdir(path):
-                generate_pages_recursive(path, template_path, dest_dir_path)
+                generate_pages_recursive(path, template_path, dest_dir_path, basepath)
                 
         
 
-    generate_pages_recursive("./content", "./template.html", "./public")
+    generate_pages_recursive("./content", "./template.html", "./public", basepath)
 
 main()
